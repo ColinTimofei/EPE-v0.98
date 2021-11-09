@@ -13,12 +13,12 @@ import java.util.UUID;
 @MappedSuperclass
 @Getter
 @Setter
-public class BaseEntity {
+public abstract class BaseEntity {
 
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(generator = "UUID2")
     @GenericGenerator(
-            name = "UUID",
+            name = "UUID2",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
