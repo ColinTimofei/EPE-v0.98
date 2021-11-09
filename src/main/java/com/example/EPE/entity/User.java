@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Table(name = "users")
 public class User extends BaseEntity {
 
-    @Column(name = "email", unique = true, updatable = false)
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "firstname", nullable = false)
