@@ -9,8 +9,8 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "roles")
+public class Roles {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
