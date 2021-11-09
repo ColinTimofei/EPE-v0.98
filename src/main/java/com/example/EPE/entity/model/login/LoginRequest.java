@@ -1,9 +1,11 @@
 package com.example.EPE.entity.model.login;
 
 import lombok.AllArgsConstructor;
-import lombok.Setter;
+import lombok.Getter;
 
-@Setter
+import javax.validation.constraints.Email;
+
+@Getter
 @AllArgsConstructor
 public class LoginRequest {
     private String email;
