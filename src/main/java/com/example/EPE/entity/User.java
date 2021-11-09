@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Getter
@@ -66,10 +67,10 @@ public class User extends BaseEntity {
     private Roles role;
 
     @Column(name = "team_leader_id")
-    private Long teamLeaderId;
+    private UUID teamLeaderId;
 
     @Column(name = "buddy_id")
-    private Long buddyId;
+    private UUID buddyId;
 
     @Override
     public boolean equals(Object o) {
@@ -87,8 +88,8 @@ public class User extends BaseEntity {
 
     public User(String email, String firstname, String lastname, Date birthDate,
                 Date employmentDate, String phoneNumber, Jobs job, String bio,
-                Image photo, String password, Roles role, Long teamLeaderId,
-                Long buddyId) {
+                Image photo, String password, Roles role, UUID teamLeaderId,
+                UUID buddyId) {
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;

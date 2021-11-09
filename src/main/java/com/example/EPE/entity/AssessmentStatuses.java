@@ -1,6 +1,5 @@
 package com.example.EPE.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "assessment_statuses")
 public class AssessmentStatuses extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     private String status;
 
     @Override
