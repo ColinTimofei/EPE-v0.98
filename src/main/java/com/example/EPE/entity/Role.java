@@ -1,6 +1,5 @@
 package com.example.EPE.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

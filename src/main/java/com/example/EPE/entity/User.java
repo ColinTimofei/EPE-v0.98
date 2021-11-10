@@ -71,6 +71,12 @@ public class User extends BaseEntity {
     @Column(name = "buddy_id")
     private Long buddyId;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+    private List<Role> roles;
+
     @Override
     public boolean equals(Object o) {
         return super.equals(o);
@@ -107,8 +113,7 @@ public class User extends BaseEntity {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", birthDate=" + birthDate +
@@ -118,10 +123,11 @@ public class User extends BaseEntity {
                 ", bio='" + bio + '\'' +
                 ", photo=" + photo +
                 ", password='" + password + '\'' +
-                ", assessments=" + assessments.stream().map(Assessment::getId).collect(Collectors.toList()) +
+                ", assessments=" + assessments +
                 ", role=" + role +
                 ", teamLeaderId=" + teamLeaderId +
                 ", buddyId=" + buddyId +
+                ", roles=" + roles +
                 '}';
     }
 }
