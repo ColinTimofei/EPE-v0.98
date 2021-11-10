@@ -2,6 +2,7 @@ package com.example.EPE.entity.model.register;
 
 import lombok.Getter;
 
+
 @Getter
 public class RegisterResponse {
     private boolean accepted;
