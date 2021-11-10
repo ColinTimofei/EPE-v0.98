@@ -18,8 +18,14 @@ public class EvaluationField extends BaseEntity {
     @JoinColumn(name = "evaluation_group_id")
     private EvaluationGroup evaluationGroup;
 
-    @Column(name = "value", nullable = false)
-    private Integer value;
+    @Column(name = "first_phase_score")
+    private Integer firstPhaseScore;
+
+    @Column(name = "second_phase_score")
+    private Integer secondPhaseScore;
+
+    @Column(name = "overall_score")
+    private Float overallScore;
 
     @Override
     public boolean equals(Object o) {
@@ -34,9 +40,12 @@ public class EvaluationField extends BaseEntity {
     public EvaluationField() {
     }
 
-    public EvaluationField(String title, EvaluationGroup evaluationGroup, Integer value) {
+    public EvaluationField(String title, EvaluationGroup evaluationGroup, Integer firstPhaseScore,
+                           Integer secondPhaseScore, Float overallScore) {
         this.title = title;
         this.evaluationGroup = evaluationGroup;
-        this.value = value;
+        this.firstPhaseScore = firstPhaseScore;
+        this.secondPhaseScore = secondPhaseScore;
+        this.overallScore = overallScore;
     }
 }

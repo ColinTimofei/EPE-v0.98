@@ -27,7 +27,7 @@ public class Assessment extends BaseEntity {
 
     @JoinColumn(name = "job_id")
     @ManyToOne
-    private Job job;
+    private Jobs job;
 
     @Column(name = "overall_score")
     private Float overallScore;
@@ -95,7 +95,7 @@ public class Assessment extends BaseEntity {
     public Assessment() {
     }
 
-    public Assessment(User user, String title, String description, Job job, Float overallScore,
+    public Assessment(User user, String title, String description, Jobs job, Float overallScore,
                       AssessmentStatuses status, Boolean isTemplate, Date startDate, Date endDate,
                       List<EvaluationGroup> evaluationGroups, List<PersonalGoal> personalGoals,
                       List<DepartmentGoal> departmentGoals, List<Feedback> feedbacks) {
