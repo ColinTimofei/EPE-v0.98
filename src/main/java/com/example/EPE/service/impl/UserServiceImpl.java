@@ -1,6 +1,6 @@
 package com.example.EPE.service.impl;
 
-import com.example.EPE.entity.Role;
+import com.example.EPE.entity.Roles;
 import com.example.EPE.entity.User;
 import com.example.EPE.repository.RoleRepository;
 import com.example.EPE.repository.UserRepository;
@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(User user) {
-        Role roleUser = roleRepository.findByRole("ROLE_USER");
-        List<Role> userRoles = new ArrayList<>();
+        Roles roleUser = roleRepository.findByRole("ROLE_USER");
+        List<Roles> userRoles = new ArrayList<>();
         userRoles.add(roleUser);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));

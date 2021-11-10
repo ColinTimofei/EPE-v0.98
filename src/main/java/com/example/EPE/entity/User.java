@@ -8,7 +8,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -38,7 +37,7 @@ public class User extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id")
-    private Job job;
+    private Jobs job;
 
     @Column(name = "bio", columnDefinition = "text")
     private String bio;
@@ -63,7 +62,7 @@ public class User extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
-    private Role role;
+    private Roles role;
 
     @Column(name = "team_leader_id")
     private Long teamLeaderId;
@@ -75,7 +74,7 @@ public class User extends BaseEntity {
     @JoinTable(name = "user_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    private List<Role> roles;
+    private List<Roles> roles;
 
     @Override
     public boolean equals(Object o) {
@@ -92,8 +91,8 @@ public class User extends BaseEntity {
     }
 
     public User(String email, String firstname, String lastname, Date birthDate,
-                Date employmentDate, String phoneNumber, Job job, String bio,
-                Image photo, String password, Role role, Long teamLeaderId,
+                Date employmentDate, String phoneNumber, Jobs job, String bio,
+                Image photo, String password, Roles role, Long teamLeaderId,
                 Long buddyId) {
         this.email = email;
         this.firstname = firstname;

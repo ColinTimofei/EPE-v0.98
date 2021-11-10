@@ -8,14 +8,14 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "job")
+public class Jobs {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "role", nullable = false)
-    private String role;
+    @Column(name = "job_title", nullable = false)
+    private String jobTitle;
 
 }
