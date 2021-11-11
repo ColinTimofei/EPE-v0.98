@@ -1,49 +1,94 @@
 package com.isdintership.epe.service.impl;
 
+import com.isdintership.epe.dto.SignUpRequestDto;
 import com.isdintership.epe.dto.UserDto;
+import com.isdintership.epe.entity.Job;
 import com.isdintership.epe.entity.Role;
 import com.isdintership.epe.entity.User;
+import com.isdintership.epe.entity.exception.UserExistException;
 import com.isdintership.epe.entity.exception.UserNotFoundException;
+import com.isdintership.epe.repository.JobRepository;
 import com.isdintership.epe.repository.RoleRepository;
 import com.isdintership.epe.repository.UserRepository;
+import com.isdintership.epe.rest.RegistrationResponse;
+import com.isdintership.epe.security.jwt.JwtTokenProvider;
 import com.isdintership.epe.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
 
+    public static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+
     private final UserRepository userRepository;
+
+    private final JobRepository jobRepository;
 
     private final RoleRepository roleRepository;
 
     private final BCryptPasswordEncoder passwordEncoder;
 
+    private final JwtTokenProvider jwtTokenProvider;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, JobRepository jobRepository,
+                           RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder,
+                           JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
+        this.jobRepository = jobRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
-    public User register(User user) {
+    public User register (SignUpRequestDto userIn) {
+        User user = new User();
+        user.setEmail(userIn.getEmail());
+        user.setFirstname(userIn.getFirstname());
+        user.setLastname(userIn.getLastname());
+        try {
+            user.setBirthDate(new SimpleDateFormat("dd-MM-yyyy").parse(userIn.getBirthDate()));
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            user.setEmploymentDate(new SimpleDateFormat("dd-MM-yyyy").parse(userIn.getEmploymentDate()));
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+
+
+        user.setPhoneNumber(userIn.getPhoneNumber());
+
+        user.setBio(userIn.getBio());
+        user.setPassword(passwordEncoder.encode(userIn.getPassword()));
+
         Role roleUser = roleRepository.findByRole("ROLE_USER");
-        List<Role> userRoles = new ArrayList<>();
-        userRoles.add(roleUser);
+        user.setRole(roleUser);
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(userRoles);
+        Job jobUser = jobRepository.findByJobTitle(userIn.getJob());
+        user.setJob(jobUser);
 
-        User registeredUser = userRepository.save(user);
-
-        return registeredUser;
+        try {
+            LOG.info("Saving user {}", userIn.getEmail());
+            return userRepository.save(user);
+        } catch (Exception ex) {
+            LOG.error("Error during registration. {}", ex.getMessage());
+            throw new UserExistException("User with email " + user.getEmail()
+                    + " already exists");
+        }
     }
 
     @Override

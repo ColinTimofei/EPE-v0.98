@@ -1,9 +1,12 @@
 package com.isdintership.epe.rest;
 
 import com.isdintership.epe.dto.AuthenticationRequestDto;
+import com.isdintership.epe.dto.SignUpRequestDto;
 import com.isdintership.epe.entity.User;
 import com.isdintership.epe.security.jwt.JwtTokenProvider;
 import com.isdintership.epe.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +32,7 @@ public class AuthenticationRestController {
 
     private final UserService userService;
 
+    @Autowired
     public AuthenticationRestController(AuthenticationManager authenticationManager,
                                         JwtTokenProvider jwtTokenProvider,
                                         UserService userService) {
@@ -48,7 +53,7 @@ public class AuthenticationRestController {
                 throw new UsernameNotFoundException("User with username " + email + " not found");
             }
 
-            String token = jwtTokenProvider.createToken(email, user.getRoles());
+            String token = jwtTokenProvider.createToken(email, user.getRole());
 
             Map<Object, Object> response = new HashMap<>();
             response.put("email", email);
@@ -59,4 +64,12 @@ public class AuthenticationRestController {
             throw new BadCredentialsException("Invalid username or password");
         }
     }
+
+    @PostMapping("register")
+    public ResponseEntity<Object> register(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
+
+        userService.register(signUpRequestDto);
+        return ResponseEntity.ok(new RegistrationResponse("User registered successfully"));
+    }
+
 }

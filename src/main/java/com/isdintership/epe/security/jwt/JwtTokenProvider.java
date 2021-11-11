@@ -45,10 +45,10 @@ public class JwtTokenProvider {
         secret = Base64.getEncoder().encodeToString(secret.getBytes());
     }
 
-    public String createToken(String username, List<Role> roles) {
+    public String createToken(String username, Role role) {
 
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put("roles", getRoleNames(roles));
+        claims.put("role", role.getRole());
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
@@ -92,13 +92,13 @@ public class JwtTokenProvider {
         }
     }
 
-    private List<String> getRoleNames(List<Role> userRoles) {
-        List<String> result = new ArrayList<>();
-
-        userRoles.forEach(role -> {
-            result.add(role.getRole());
-        });
-
-        return result;
-    }
+//    private List<String> getRoleNames(List<Role> userRoles) {
+//        List<String> result = new ArrayList<>();
+//
+//        userRoles.forEach(role -> {
+//            result.add(role.getRole());
+//        });
+//
+//        return result;
+//    }
 }

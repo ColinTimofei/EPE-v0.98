@@ -26,11 +26,11 @@ public class User extends BaseEntity {
     private String lastname;
 
     @Column(name = "birth_date", nullable = false)
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date birthDate;
 
     @Column(name = "employment_date", nullable = false)
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date employmentDate;
 
     @Column(name = "phone_number", nullable = false)
